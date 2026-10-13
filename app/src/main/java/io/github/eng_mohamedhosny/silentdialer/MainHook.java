@@ -11,6 +11,7 @@ import java.io.IOException;
 
 import de.robv.android.xposed.IXposedHookLoadPackage;
 import de.robv.android.xposed.XC_MethodHook;
+import de.robv.android.xposed.XC_MethodReplacement;
 import de.robv.android.xposed.XposedBridge;
 import de.robv.android.xposed.XposedHelpers;
 import de.robv.android.xposed.callbacks.XC_LoadPackage;
@@ -50,8 +51,27 @@ public class MainHook implements IXposedHookLoadPackage {
             return;
         }
 
-        XposedBridge.log("SilentDialerRecord: Loaded into " + lpparam.packageName);
+        XposedBridge.log("SilentDialerRecord: Successfully loaded into " + lpparam.packageName);
 
+        // 1. Direct hook on CallRecorder.playAudio if present
+        try {
+            Class<?> callRecorderClass = XposedHelpers.findClassIfExists(
+                    "com.android.dialer.callrecording.impl.service.CallRecorder",
+                    lpparam.classLoader
+            );
+            if (callRecorderClass != null) {
+                XposedBridge.hookAllMethods(callRecorderClass, "playAudio", new XC_MethodHook() {
+                    @Override
+                    protected void beforeHookedMethod(MethodHookParam param) throws Throwable {
+                        XposedBridge.log("SilentDialerRecord: Intercepted and silenced CallRecorder.playAudio call");
+                    }
+                });
+            }
+        } catch (Throwable t) {
+            XposedBridge.log("SilentDialerRecord: CallRecorder hook error: " + t.getMessage());
+        }
+
+        // 2. Provision silent files on App startup
         XposedHelpers.findAndHookMethod(
                 Application.class,
                 "onCreate",
@@ -64,6 +84,7 @@ public class MainHook implements IXposedHookLoadPackage {
                 }
         );
 
+        // 3. Hook File constructors targeting audio prompt directories
         XposedBridge.hookAllConstructors(
                 File.class,
                 new XC_MethodHook() {
@@ -78,23 +99,7 @@ public class MainHook implements IXposedHookLoadPackage {
                 }
         );
 
-        XposedHelpers.findAndHookMethod(
-                FileOutputStream.class,
-                "close",
-                new XC_MethodHook() {
-                    @Override
-                    protected void afterHookedMethod(MethodHookParam param) {
-                        try {
-                            File filesDir = new File("/data/data/" + DIALER_PKG + "/files");
-                            if (filesDir.exists()) {
-                                sweepDirectories(filesDir);
-                            }
-                        } catch (Throwable ignored) {
-                        }
-                    }
-                }
-        );
-
+        // 4. Hook MediaPlayer setDataSource to ensure file is silent before playing
         XposedHelpers.findAndHookMethod(
                 MediaPlayer.class,
                 "setDataSource",
@@ -168,7 +173,7 @@ public class MainHook implements IXposedHookLoadPackage {
                 fos.flush();
             }
             file.setReadable(true, false);
-        } catch (IOException e) {
+        } catch (Throwable e) {
             XposedBridge.log("SilentDialerRecord: Failed to write silent WAV: " + e.getMessage());
         }
     }
