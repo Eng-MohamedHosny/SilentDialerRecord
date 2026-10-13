@@ -1,4 +1,4 @@
-﻿package io.github.eng_mohamedhosny.silentdialer;
+package io.github.eng_mohamedhosny.silentdialer;
 
 import android.app.Application;
 import android.content.Context;
