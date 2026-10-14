@@ -9,7 +9,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/Eng-MohamedHosny/io.github.eng_mohamedhosny.silentdialer/releases"><img src="https://img.shields.io/github/v/release/Eng-MohamedHosny/io.github.eng_mohamedhosny.silentdialer?color=blue&style=flat-square" alt="Release"></a>
+  <a href="https://github.com/Eng-MohamedHosny/SilentDialerRecord/releases"><img src="https://img.shields.io/github/v/release/Eng-MohamedHosny/SilentDialerRecord?color=blue&style=flat-square" alt="Release"></a>
   <img src="https://img.shields.io/badge/Android-8.0%20--%2017-brightgreen?style=flat-square" alt="Android 8.0 - 17">
   <img src="https://img.shields.io/badge/Root-Magisk%20%7C%20KernelSU%20%7C%20APatch%20%7C%20BakaSU-orange?style=flat-square" alt="Root Compatibility">
   <img src="https://img.shields.io/badge/Framework-LSPosed%20%2F%20Vector-purple?style=flat-square" alt="LSPosed">
@@ -52,7 +52,7 @@ Unlike naive folder-locking scripts that trigger `"Recording failed"` errors, th
 ## 🛠️ How to Set Up (Step-by-Step)
 
 1. **Download the Module:**
-   * Grab the latest `SilentDialerRecord-vX.Y.Z.apk` from the [Releases](https://github.com/Eng-MohamedHosny/io.github.eng_mohamedhosny.silentdialer/releases) page.
+   * Grab the latest `SilentDialerRecord-vX.Y.Z.apk` from the [Releases](https://github.com/Eng-MohamedHosny/SilentDialerRecord/releases) page.
 2. **Install the APK:**
    * Install the APK on your device directly or via ADB:
      ```bash
@@ -111,7 +111,7 @@ If you still hear the announcement or experience any issues after an update:
 Found a bug or have a suggestion? We welcome community contributions and issue reports!
 
 Before opening an issue:
-1. Make sure you are on the [latest release](https://github.com/Eng-MohamedHosny/io.github.eng_mohamedhosny.silentdialer/releases).
+1. Make sure you are on the [latest release](https://github.com/Eng-MohamedHosny/SilentDialerRecord/releases).
 2. Gather your device info:
    * **Device Model:** (e.g., Xiaomi Redmi K20 / Mi 9T)
    * **Android Version / ROM:** (e.g., Android 17 / PixelOS)
@@ -119,7 +119,7 @@ Before opening an issue:
    * **LSPosed Version:** (e.g., Vector LSPosed v2.2)
    * **Google Dialer Version:** (e.g., 148.x.x)
    * **Logcat excerpt:** Output of `logcat -d | grep -iE 'SilentDialer|callrecorder'`
-3. [Open a New Issue](https://github.com/Eng-MohamedHosny/io.github.eng_mohamedhosny.silentdialer/issues/new) on GitHub with the details above.
+3. [Open a New Issue](https://github.com/Eng-MohamedHosny/SilentDialerRecord/issues/new) on GitHub with the details above.
 
 ---
 
